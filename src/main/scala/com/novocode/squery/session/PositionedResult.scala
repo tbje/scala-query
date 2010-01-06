@@ -13,6 +13,7 @@ class PositionedResult(val rs: ResultSet) {
   def nextByte() = { pos += 1; rs getByte pos }
   def nextClob() = { pos += 1; rs getClob pos }
   def nextDate() = { pos += 1; rs getDate pos }
+  def nextDecimal() = { pos += 1; rs getBigDecimal pos }
   def nextDouble() = { pos += 1; rs getDouble pos }
   def nextFloat() = { pos += 1; rs getFloat pos }
   def nextInt() = { pos += 1; rs getInt pos }
@@ -27,6 +28,7 @@ class PositionedResult(val rs: ResultSet) {
   def nextByteOption() = { pos += 1; val r = rs getByte pos; if(rs wasNull) None else Some(r) }
   def nextClobOption() = { pos += 1; val r = rs getClob pos; if(rs wasNull) None else Some(r) }
   def nextDateOption() = { pos += 1; val r = rs getDate pos; if(rs wasNull) None else Some(r) }
+  def nextDecimalOption() = { pos += 1; val r = rs getBigDecimal pos; if(rs wasNull) None else Some(r) }
   def nextDoubleOption() = { pos += 1; val r = rs getDouble pos; if(rs wasNull) None else Some(r) }
   def nextFloatOption() = { pos += 1; val r = rs getFloat pos; if(rs wasNull) None else Some(r) }
   def nextIntOption() = { pos += 1; val r = rs getInt pos; if(rs wasNull) None else Some(r) }

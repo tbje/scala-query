@@ -1,6 +1,7 @@
 package com.novocode.squery.session
 
 import java.sql.{Blob, Clob, Date, Time, Timestamp}
+import java.math.{BigDecimal => BigDec}
 
 sealed trait TypeMapper[T] {
   def zero: T
@@ -30,6 +31,15 @@ object TypeMapper {
     def nextValue(r: PositionedResult) = r.nextBlob
   }
 
+  implicit object BigDecimalTypeMapper extends TypeMapper[BigDec] {
+    def zero = null
+    def sqlType = java.sql.Types.DECIMAL
+    def setValue(v: BigDec, p: PositionedParameters) = p.setDecimal(v)
+    def setOption(v: Option[BigDec], p: PositionedParameters) = p.setDecimalOption(v)
+    def nextValue(r: PositionedResult) = r.nextDecimal
+  }
+
+  
   implicit object ByteTypeMapper extends TypeMapper[Byte] {
     def zero = 0
     def sqlType = java.sql.Types.TINYINT
