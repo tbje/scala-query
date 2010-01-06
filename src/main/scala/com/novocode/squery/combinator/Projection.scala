@@ -182,7 +182,7 @@ final class Projection9[T1,T2,T3,T4,T5,T6,T7,T8,T9](
   override val _8: Column[T8],
   override val _9: Column[T9])
 extends Tuple9(_1,_2,_3,_4,_5,_6,_7,_8,_9) with Projection[(T1,T2,T3,T4,T5,T6,T7,T8,T9)] {
-  //def ~[U](c: Column[U]) = new Projection10(_1,_2,_3,_4,_5,_6,_7,_8,_9,c)
+  def ~[U](c: Column[U]) = new Projection10(_1,_2,_3,_4,_5,_6,_7,_8,_9,c)
   def getResult(rs: PositionedResult) =
     (_1.getResult(rs),
      _2.getResult(rs),
@@ -203,4 +203,125 @@ extends Tuple9(_1,_2,_3,_4,_5,_6,_7,_8,_9) with Projection[(T1,T2,T3,T4,T5,T6,T7
     _7.mapOp(f),
     _8.mapOp(f),
     _9.mapOp(f)).asInstanceOf[this.type]
+}
+
+
+final class Projection10[T1,T2,T3,T4,T5,T6,T7,T8,T9,T10](
+  override val _1: Column[T1],
+  override val _2: Column[T2],
+  override val _3: Column[T3],
+  override val _4: Column[T4],
+  override val _5: Column[T5],
+  override val _6: Column[T6],
+  override val _7: Column[T7],
+  override val _8: Column[T8],
+  override val _9: Column[T9],
+  override val _10: Column[T10])
+extends Tuple10(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10) with Projection[(T1,T2,T3,T4,T5,T6,T7,T8,T9,T10)] {
+  def ~[U](c: Column[U]) = new Projection11(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,c)
+  def getResult(rs: PositionedResult) =
+    (_1.getResult(rs),
+     _2.getResult(rs),
+     _3.getResult(rs),
+     _4.getResult(rs),
+     _5.getResult(rs),
+     _6.getResult(rs),
+     _7.getResult(rs),
+     _8.getResult(rs),
+     _9.getResult(rs),
+     _10.getResult(rs))
+  override def mapOp(f: Node => Node): this.type = new Projection10(
+    _1.mapOp(f),
+    _2.mapOp(f),
+    _3.mapOp(f),
+    _4.mapOp(f),
+    _5.mapOp(f),
+    _6.mapOp(f),
+    _7.mapOp(f),
+    _8.mapOp(f),
+    _9.mapOp(f),
+    _10.mapOp(f)).asInstanceOf[this.type]
+}
+
+final class Projection11[T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11](
+  override val _1: Column[T1],
+  override val _2: Column[T2],
+  override val _3: Column[T3],
+  override val _4: Column[T4],
+  override val _5: Column[T5],
+  override val _6: Column[T6],
+  override val _7: Column[T7],
+  override val _8: Column[T8],
+  override val _9: Column[T9],
+  override val _10: Column[T10],
+  override val _11: Column[T11])
+extends Tuple11(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11) with Projection[(T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11)] {
+  def ~[U](c: Column[U]) = new Projection12(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,c)
+  def getResult(rs: PositionedResult) =
+    (_1.getResult(rs),
+     _2.getResult(rs),
+     _3.getResult(rs),
+     _4.getResult(rs),
+     _5.getResult(rs),
+     _6.getResult(rs),
+     _7.getResult(rs),
+     _8.getResult(rs),
+     _9.getResult(rs),
+     _10.getResult(rs),
+     _11.getResult(rs))
+  override def mapOp(f: Node => Node): this.type = new Projection11(
+    _1.mapOp(f),
+    _2.mapOp(f),
+    _3.mapOp(f),
+    _4.mapOp(f),
+    _5.mapOp(f),
+    _6.mapOp(f),
+    _7.mapOp(f),
+    _8.mapOp(f),
+    _9.mapOp(f),
+    _10.mapOp(f),
+    _11.mapOp(f)).asInstanceOf[this.type]
+}
+
+final class Projection12[T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12](
+  override val _1: Column[T1],
+  override val _2: Column[T2],
+  override val _3: Column[T3],
+  override val _4: Column[T4],
+  override val _5: Column[T5],
+  override val _6: Column[T6],
+  override val _7: Column[T7],
+  override val _8: Column[T8],
+  override val _9: Column[T9],
+  override val _10: Column[T10],
+  override val _11: Column[T11],
+  override val _12: Column[T12])
+extends Tuple12(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12) with Projection[(T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12)] {
+  //def ~[U](c: Column[U]) = new Projection10(_1,_2,_3,_4,_5,_6,_7,_8,_9,c)
+  def getResult(rs: PositionedResult) =
+    (_1.getResult(rs),
+     _2.getResult(rs),
+     _3.getResult(rs),
+     _4.getResult(rs),
+     _5.getResult(rs),
+     _6.getResult(rs),
+     _7.getResult(rs),
+     _8.getResult(rs),
+     _9.getResult(rs),
+     _10.getResult(rs),
+     _11.getResult(rs),
+     _12.getResult(rs))
+  override def mapOp(f: Node => Node): this.type = new Projection12(
+    _1.mapOp(f),
+    _2.mapOp(f),
+    _3.mapOp(f),
+    _4.mapOp(f),
+    _5.mapOp(f),
+    _6.mapOp(f),
+    _7.mapOp(f),
+    _8.mapOp(f),
+    _9.mapOp(f),
+    _10.mapOp(f),
+    _11.mapOp(f),
+    _12.mapOp(f)).asInstanceOf[this.type]
 }
