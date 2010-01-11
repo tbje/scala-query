@@ -28,6 +28,7 @@ extends Tuple2(_1,_2) with Projection[(T1,T2)] {
   override def mapOp(f: Node => Node): this.type = new Projection2(
     _1.mapOp(f),
     _2.mapOp(f)).asInstanceOf[this.type]
+  def tail = _2
 }
 
 final class Projection3[T1,T2,T3](
@@ -44,6 +45,7 @@ extends Tuple3(_1,_2,_3) with Projection[(T1,T2,T3)] {
     _1.mapOp(f),
     _2.mapOp(f),
     _3.mapOp(f)).asInstanceOf[this.type]
+  def tail = new Projection2(_2,_3)
 }
 
 final class Projection4[T1,T2,T3,T4](
@@ -63,6 +65,7 @@ extends Tuple4(_1,_2,_3,_4) with Projection[(T1,T2,T3,T4)] {
     _2.mapOp(f),
     _3.mapOp(f),
     _4.mapOp(f)).asInstanceOf[this.type]
+  def tail = new Projection3(_2,_3,_4)
 }
 
 final class Projection5[T1,T2,T3,T4,T5](
@@ -85,6 +88,7 @@ extends Tuple5(_1,_2,_3,_4,_5) with Projection[(T1,T2,T3,T4,T5)] {
     _3.mapOp(f),
     _4.mapOp(f),
     _5.mapOp(f)).asInstanceOf[this.type]
+  def tail = new Projection4(_2,_3,_4,_5)
 }
 
 final class Projection6[T1,T2,T3,T4,T5,T6](
@@ -110,6 +114,7 @@ extends Tuple6(_1,_2,_3,_4,_5,_6) with Projection[(T1,T2,T3,T4,T5,T6)] {
     _4.mapOp(f),
     _5.mapOp(f),
     _6.mapOp(f)).asInstanceOf[this.type]
+  def tail = new Projection5(_2,_3,_4,_5,_6)
 }
 
 final class Projection7[T1,T2,T3,T4,T5,T6,T7](
@@ -138,6 +143,7 @@ extends Tuple7(_1,_2,_3,_4,_5,_6,_7) with Projection[(T1,T2,T3,T4,T5,T6,T7)] {
     _5.mapOp(f),
     _6.mapOp(f),
     _7.mapOp(f)).asInstanceOf[this.type]
+  def tail = new Projection6(_2,_3,_4,_5,_6,_7)
 }
 
 final class Projection8[T1,T2,T3,T4,T5,T6,T7,T8](
@@ -169,6 +175,7 @@ extends Tuple8(_1,_2,_3,_4,_5,_6,_7,_8) with Projection[(T1,T2,T3,T4,T5,T6,T7,T8
     _6.mapOp(f),
     _7.mapOp(f),
     _8.mapOp(f)).asInstanceOf[this.type]
+  def tail = new Projection7(_2,_3,_4,_5,_6,_7,_8)
 }
 
 final class Projection9[T1,T2,T3,T4,T5,T6,T7,T8,T9](
@@ -203,6 +210,7 @@ extends Tuple9(_1,_2,_3,_4,_5,_6,_7,_8,_9) with Projection[(T1,T2,T3,T4,T5,T6,T7
     _7.mapOp(f),
     _8.mapOp(f),
     _9.mapOp(f)).asInstanceOf[this.type]
+  def tail = new Projection8(_2,_3,_4,_5,_6,_7,_8,_9)
 }
 
 
@@ -241,6 +249,7 @@ extends Tuple10(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10) with Projection[(T1,T2,T3,T4,T5,
     _8.mapOp(f),
     _9.mapOp(f),
     _10.mapOp(f)).asInstanceOf[this.type]
+  def tail = new Projection9(_2,_3,_4,_5,_6,_7,_8,_9,_10)
 }
 
 final class Projection11[T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11](
@@ -281,6 +290,7 @@ extends Tuple11(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11) with Projection[(T1,T2,T3,T4
     _9.mapOp(f),
     _10.mapOp(f),
     _11.mapOp(f)).asInstanceOf[this.type]
+  def tail = new Projection10(_2,_3,_4,_5,_6,_7,_8,_9,_10,_11)
 }
 
 final class Projection12[T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12](
@@ -324,4 +334,5 @@ extends Tuple12(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12) with Projection[(T1,T2,T
     _10.mapOp(f),
     _11.mapOp(f),
     _12.mapOp(f)).asInstanceOf[this.type]
+  def tail = new Projection11(_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12)
 }

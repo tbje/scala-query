@@ -1,7 +1,7 @@
 package com.novocode.squery.session
 
 import java.sql.PreparedStatement
-
+import java.sql.Statement
 /**
  * A database session which opens a connection and transaction on demand.
  */
@@ -12,6 +12,8 @@ class Session private[squery] (fact: SessionFactory) {
   lazy val conn = { open = true; fact.createConnection() }
 
   private[squery] def allocPS(sql: String) = conn.prepareStatement(sql)
+
+  private[squery] def allocPSAutoInc(sql: String) = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
 
   private[squery] def freePS(sql: String, ps: PreparedStatement) = ps.close()
 
