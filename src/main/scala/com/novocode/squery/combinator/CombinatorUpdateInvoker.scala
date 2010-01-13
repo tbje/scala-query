@@ -10,7 +10,6 @@ class CombinatorUpdateInvoker[T] (query: Query[Projection[T]]) {
   def update(value: T)(implicit session: Session): Int = {
     val st = session.allocPS(updateStatement._1)
     try {
-      println("statenen:" + updateStatement)
       st.clearParameters
       query.value.setParameter(new PositionedParameters(st), Some(value))
       st.executeUpdate
