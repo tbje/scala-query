@@ -9,7 +9,7 @@ import com.novocode.squery.session._
 import com.novocode.squery.session.SessionFactory._
 
 
-object JDBCTest {
+object JDBC {
 
   implicit def rsToUser(rs: PositionedResult) = new User(rs.nextInt(), rs.nextString())
 

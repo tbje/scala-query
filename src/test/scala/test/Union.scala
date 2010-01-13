@@ -6,7 +6,7 @@ import com.novocode.squery.session._
 import com.novocode.squery.session.SessionFactory._
 import com.novocode.squery.session.TypeMapper._
 
-object UnionTest {
+object Union{
   def main(args: Array[String]) {
 
     object Managers extends Table[(Int, String, String)]("managers") {

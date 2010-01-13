@@ -5,7 +5,7 @@ import com.novocode.squery.combinator.sql.{QueryBuilder, InsertBuilder, DDLBuild
 import com.novocode.squery.combinator.Implicit._
 import com.novocode.squery.session.TypeMapper._
 
-object SQuery2Test {
+object SQuery {
   def main(args: Array[String]) {
 
     object Users extends Table[(Int, String, String)]("users") {
