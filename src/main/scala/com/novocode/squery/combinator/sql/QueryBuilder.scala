@@ -15,6 +15,7 @@ private class QueryBuilder (val query: Query[_], private[this] var nc: NamingCon
   private[this] val declaredTables = new HashSet[String]
   private[this] val subQueryBuilders = new HashMap[RefId[Query[_]], QueryBuilder]
   private[this] var fromSlot: SQLBuilder = _
+  private[this] var tableSlot: SQLBuilder = _
 
   private[this] def localTableName(n: Node) = n match {
     case Join.JoinPart(table, from) =>
@@ -99,27 +100,25 @@ private class QueryBuilder (val query: Query[_], private[this] var nc: NamingCon
     b.build
   }
 
-  private def buildUpdate: String = Node(query.value) match {
+  private def buildUpdate = Node(query.value) match {
     case p:Projection[_] => ""
       val b = new SQLBuilder += "UPDATE "
-      /*val (updateTable, updateTableName) = Node(query.value) match {
-        case t @ Table.Alias(base:Table[_]) => (t, base.tableName)
-        case t:Table[_] => (t, t.tableName)
-        case n => throw new SQueryException("Cannot create a UPDATE statement from an \""+n+
-          "\" expression; An aliased or base table is required")
-      }
-      b += updateTableName += " SET "
-      nc = nc.overrideName(updateTable, updateTableName) // Alias table to itself because UPDATE does not support aliases
+      tableSlot = b.createSlot
+      b += " SET " 
+      updateExpr(p, b)
+      insertTable()
       appendConditions(b)
-      if(localTables.size > 1)
-        throw new SQueryException("Conditions of a DELETE statement must not reference other tables")
-      for(qb <- subQueryBuilders.values)
-        qb.insertFromClauses()*/
-      b.toString
+//      b += updateTableName += " SET "
+//      nc = nc.overrideName(updateTable, updateTableName) // Alias table to itself because UPDATE does not support aliases
+//      if(localTables.size > 1)
+//        throw new SQueryException("Conditions of a DELETE statement must not reference other tables")
+//      for(qb <- subQueryBuilders.values)
+//        qb.insertFromClauses()
+      b.build
     case n => throw new SQueryException("Cannot create a UPDATE statement from an \""+n+
       "\" expression; Not a Projection; A projection of named columns from the same aliased or base table is required")
   }
-
+   
   private[this] def expr(c: Node, b: SQLBuilder): Unit = c match {
     case NullNode => b += "null"
     case Operator.Not(Operator.Is(l, NullNode)) => { b += '('; expr(l, b); b += " is not null)" }
@@ -154,7 +153,16 @@ private class QueryBuilder (val query: Query[_], private[this] var nc: NamingCon
     case t: TableBase[_] => b += localTableName(t) += ".*"
     case _ => throw new SQueryException("Don't know what to do with node \""+c+"\" in an expression")
   }
-
+  private[this] def updateExpr(c: Node, b: SQLBuilder): Unit = c match {
+    case p: Projection[_] => {
+      var first = true
+      b += p.nodeChildren.map( _ match {
+      		case n: NamedColumn[_] => { localTableName(n.table) + '.' + n.name + "=?"}
+      		case _ => throw new SQueryException("Don't know what to do with node \""+c+"\" in an update expression")
+      	}
+      ).mkString(", ")
+    }
+  }
   private[this] def appendConditions(b: SQLBuilder): Unit = query.cond match {
     case a :: l =>
       b += " WHERE "
@@ -169,7 +177,7 @@ private class QueryBuilder (val query: Query[_], private[this] var nc: NamingCon
       if(!parent.map(_.isDeclaredTable(name)).getOrElse(false)) {
         if(first) { fromSlot += " FROM "; first = false }
         else fromSlot += ','
-        table(t, name, fromSlot)
+        fromSlot += table(t, name)
         declaredTables += name
       }
     }
@@ -177,18 +185,33 @@ private class QueryBuilder (val query: Query[_], private[this] var nc: NamingCon
       qb.insertFromClauses()
   }
 
-  private[this] def table(t: Node, name: String, b: SQLBuilder): Unit = t match {
-    case Table.Alias(base: Table[_]) =>
-      b += base.tableName += ' ' += name
-    case base: Table[_] =>
-      b += base.tableName += ' ' += name
-    case Table.Alias(j: Join[_,_]) => {
-      var first = true
-      for(n <- j.nodeChildren) {
-        if(first) first = false
-        else b += " natural join "
-        table(n, nc.nameFor(n), b)
+  private def insertTable() {
+//	  if(!parent.map(_.isDeclaredTable(name)).getOrElse(false)) {
+//    val y_x = localTables.map{case (name, t) => {
+//    	declaredTables += name
+//        table(t, name)
+//        }
+//      }
+//    }
+//    localTables.mkString(",")
+//    println(y_x.mkStrng(", "))
+    for((name, t) <- localTables) {
+      if(!parent.map(_.isDeclaredTable(name)).getOrElse(false)) {
+        tableSlot += table(t, name)
+        declaredTables += name
       }
+    }
+    for(qb <- subQueryBuilders.values)
+      qb.insertFromClauses()
+  }
+
+  private[this] def table(t: Node, name: String): String = t match {
+    case Table.Alias(base: Table[_]) =>
+    	base.tableName + ' ' + name
+    case base: Table[_] =>
+      base.tableName + ' ' + name
+    case Table.Alias(j: Join[_,_]) => {
+      j.nodeChildren.map(n => table(n, nc.nameFor(n))).mkString(" natural join ")
     }
   }
 }
