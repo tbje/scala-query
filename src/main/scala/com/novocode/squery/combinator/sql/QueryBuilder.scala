@@ -101,17 +101,27 @@ private class QueryBuilder (val query: Query[_], private[this] var nc: NamingCon
   }
 
   private def buildUpdate = Node(query.value) match {
-    case p:Projection[_] => ""
+    case p:Projection[_] =>
       val b = new SQLBuilder += "UPDATE "
       tableSlot = b.createSlot
       b += " SET " 
       updateExpr(p, b)
       insertTable()
       appendConditions(b)
-//      b += updateTableName += " SET "
-//      nc = nc.overrideName(updateTable, updateTableName) // Alias table to itself because UPDATE does not support aliases
-//      if(localTables.size > 1)
-//        throw new SQueryException("Conditions of a DELETE statement must not reference other tables")
+      if(localTables.size > 1)
+        throw new SQueryException("Conditions of a DELETE statement must not reference other tables")
+//      for(qb <- subQueryBuilders.values)
+//        qb.insertFromClauses()
+      b.build
+    case n:NamedColumn[_] =>
+      val b = new SQLBuilder += "UPDATE "
+      tableSlot = b.createSlot
+      b += " SET " 
+      updateExpr(n, b)
+      insertTable()
+      appendConditions(b)
+      if(localTables.size > 1)
+        throw new SQueryException("Conditions of a DELETE statement must not reference other tables")
 //      for(qb <- subQueryBuilders.values)
 //        qb.insertFromClauses()
       b.build
@@ -162,6 +172,7 @@ private class QueryBuilder (val query: Query[_], private[this] var nc: NamingCon
       	}
       ).mkString(", ")
     }
+    case n: NamedColumn[_] => { b+= localTableName(n.table) + '.' + n.name + "=?"}
   }
   private[this] def appendConditions(b: SQLBuilder): Unit = query.cond match {
     case a :: l =>

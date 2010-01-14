@@ -40,6 +40,7 @@ object Implicit {
   implicit def queryToQueryInvoker[T](q: Query[ColumnBase[T]]): StatementCombinatorQueryInvoker[T] = new StatementCombinatorQueryInvoker(q)
   implicit def queryToDeleteInvoker[T](q: Query[Table[T]]): DeleteInvoker[T] = new DeleteInvoker(q)
   implicit def queryToUpdateInvoker[T](q: Query[Projection[T]]): CombinatorUpdateInvoker[T] = new CombinatorUpdateInvoker(q)
+  implicit def queryToUpdateInvoker[T](q: Query[ColumnBase[T]]): ColumnBaseUpdateInvoker[T] = new ColumnBaseUpdateInvoker(q)
   implicit def tableToDDLInvoker[T](t: Table[T]): DDLInvoker[T] = new DDLInvoker(t)
   implicit def columnBaseToInsertInvoker[T](c: ColumnBase[T]) = new CombinatorInsertInvoker(c)
 
