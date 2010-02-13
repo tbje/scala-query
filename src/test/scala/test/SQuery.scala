@@ -36,8 +36,8 @@ object SQuery {
     val q1b = new StatementCombinatorQueryInvoker(q1).mapResult { case (id,f,l) => id + ". " + f + " " + l }
 
     val q2 = for {
-      u <- Users
-      __ <- OrderBy +u.first >> OrderBy -u.last
+      u <- Users orderBy(Users.first asc) orderBy(Users.last desc)
+//      __ <- OrderBy +u.first >> OrderBy -u.last
       o <- Orders where { o => (u.id is o.userID).&&[Boolean,Boolean](u.first isNot null) }
     } yield u.first ~ u.last ~ o.orderID
 
@@ -50,9 +50,9 @@ object SQuery {
     val q3 = for(u <- Users where(_.id is 42)) yield u.first ~ u.last
 
     val q4 = for {
-      uo <- Users join Orders
+      uo <- Users join Orders orderBy(Users.last asc)
       val Join(u,o) = uo
-      __ <- OrderBy +u.last
+//      __ <- OrderBy +u.last
     } yield u.first ~ o.orderID
 
     /*val q4b = for {

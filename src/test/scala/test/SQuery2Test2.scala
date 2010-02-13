@@ -62,8 +62,7 @@ object SQuery2Test2 {
 
       val q3 = for {
         u <- Users
-        o <- Orders where { o => (u.id is o.userID).&&[Boolean,Boolean](u.last isNot null) }
-        __ <- OrderBy +u.first // No _ patterns allowed in Scala 2.7; Works with _ instead of __ in 2.8
+        o <- Orders where { o => (u.id is o.userID).&&[Boolean,Boolean](u.last isNot null) } orderBy(Users.first asc)
       } yield u.first ~ u.last ~ o.orderID ~ o.product ~ o.shipped ~ o.rebate
       println("q3: " + q3.selectStatement)
       println("All Orders by Users with a last name by first name:")
@@ -95,9 +94,8 @@ object SQuery2Test2 {
 
       val q4c = for {
         u <- Users
-        o <- Orders where { _.userID is u.id }
+        o <- Orders where { _.userID is u.id } orderBy(Orders.orderID.max asc)
         __ <- GroupBy(u.id)
-        __ <- OrderBy +o.orderID.max
       } yield u.first ~ o.orderID.max
       println("q4c: " + q4c.selectStatement)
       println("Latest Order per User, using GroupBy:")

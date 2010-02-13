@@ -51,8 +51,14 @@ private class QueryBuilder (val query: Query[_], private[this] var nc: NamingCon
       appendConditions(b)
       appendGroupClause(b)
       appendOrderClause(b)
+      appendLimitClause(b)
+  }
+  private def appendLimitClause(b: SQLBuilder): Unit = query.limit match {
+    case Some(x : (Int, Int)) => b += " LIMIT " + x._1 + ", " + x._2
+    case _ =>
   }
 
+  
   private def appendGroupClause(b: SQLBuilder): Unit = query.groupBy match {
     case x :: xs => {
       b += " GROUP BY "
@@ -77,7 +83,7 @@ private class QueryBuilder (val query: Query[_], private[this] var nc: NamingCon
     case _ =>
   }
 
-  private def appendOrdering(o: OrderBy.Ordering, b: SQLBuilder) {
+  private def appendOrdering(o: Ordering, b: SQLBuilder) {
     expr(o.by, b)
     if(o.isInstanceOf[OrderBy.Desc]) b += " descending"
   }

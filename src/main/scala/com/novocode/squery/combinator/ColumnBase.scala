@@ -48,6 +48,9 @@ trait Column[T] extends ColumnBase[T] {
   def <= (e: Column[_]) = Operator.Relational("<=", Node(this), Node(e))
   def > (e: Column[_]) = Operator.Relational(">", Node(this), Node(e))
   def >= (e: Column[_]) = Operator.Relational(">=", Node(this), Node(e))
+  
+  def asc = new Ordering.Asc(Node(this))
+  def desc = new Ordering.Desc(Node(this))
 }
 
 /**
