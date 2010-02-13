@@ -54,7 +54,7 @@ private class QueryBuilder (val query: Query[_], private[this] var nc: NamingCon
       appendLimitClause(b)
   }
   private def appendLimitClause(b: SQLBuilder): Unit = query.limit match {
-    case Some(x : (Int, Int)) => b += " LIMIT " + x._1 + ", " + x._2
+    case Some((offset :Int, number:Int)) => b += " LIMIT " + offset + ", " + number
     case _ =>
   }
 

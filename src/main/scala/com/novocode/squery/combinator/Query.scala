@@ -34,15 +34,14 @@ class Query[+E](val value: E, val cond: List[ColumnBase[_]],
 
   def orderBy(by : Ordering*): Query[E] = new Query(value, cond, groupBy, orderBy ::: by.toList, limit)
   
-  def limit(a: Int, b: Int): Query[E] = new Query(value, cond, groupBy, orderBy, limit match { 
+  def limit(offset: Int, number: Int): Query[E] = new Query(value, cond, groupBy, orderBy, limit match { 
       case Some(x) => Some(x)
-      case None => Some((a,b))
+      case None => Some((offset, number))
     })
 }
-
-object Query {
+object Query extends Query[Unit]((), Nil, Nil, Nil, None) {
   def apply[E](value: E) = new Query(value, Nil, Nil, Nil, None)
-
+ 
   trait WhereType[T]
 }
 
