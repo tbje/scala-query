@@ -1,11 +1,13 @@
 package com.novocode.squery.session
 
 import java.sql.{PreparedStatement, Date, Time, Timestamp, Types, Blob, Clob}
+import java.math.{BigDecimal => BigDec}
 
 class PositionedParameters(val ps: PreparedStatement) {
 
   var pos = 0
 
+  def setDecimal(value: BigDec) = { pos += 1; ps.setBigDecimal(pos, value) }
   def setBoolean(value: Boolean) = { pos += 1; ps.setBoolean(pos, value) }
   def setBlob(value: Blob) = { pos += 1; ps.setBlob(pos, value) }
   def setByte(value: Byte) = { pos += 1; ps.setByte(pos, value) }
@@ -18,7 +20,7 @@ class PositionedParameters(val ps: PreparedStatement) {
   def setString(value: String) = { pos += 1; ps.setString(pos, value) }
   def setTime(value: Time) = { pos += 1; ps.setTime(pos, value) }
   def setTimestamp(value: Timestamp) = { pos += 1; ps.setTimestamp(pos, value) }
-
+ 
   def setBooleanOption(value: Option[Boolean]) = {
     pos += 1
     if(value eq None) ps.setNull(pos, Types.BOOLEAN) else ps.setBoolean(pos, value.get)
@@ -38,6 +40,10 @@ class PositionedParameters(val ps: PreparedStatement) {
   def setDateOption(value: Option[Date]) = {
     pos += 1
     if(value eq None) ps.setNull(pos, Types.DATE) else ps.setDate(pos, value.get)
+  }
+  def setDecimalOption(value: Option[BigDec]) = {
+	pos += 1
+	if(value eq None) ps.setNull(pos, Types.DECIMAL) else ps.setBigDecimal(pos, value.get)
   }
   def setDoubleOption(value: Option[Double]) = {
     pos += 1

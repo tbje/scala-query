@@ -1,6 +1,7 @@
 package com.novocode.squery.combinator
 
 import java.sql.{Blob, Clob, Date, Time, Timestamp}
+import java.math.{BigDecimal => BigDec}
 import com.novocode.squery.SQueryException
 import com.novocode.squery.combinator.basic.BasicProfile
 import com.novocode.squery.session.{PositionedParameters, PositionedResult}
@@ -32,6 +33,10 @@ object TypeMapper {
 
   implicit object DateTypeMapper extends BaseTypeMapper[Date] {
     def apply(profile: BasicProfile) = profile.typeMapperDelegates.dateTypeMapperDelegate
+  }
+  
+  implicit object BigDecimalTypeMapper extends TypeMapper[BigDec] {
+    def apply(profile: BasicProfile) = profile.typeMapperDelegates.decimalTypeMapperDelegate
   }
 
   implicit object DoubleTypeMapper extends BaseTypeMapper[Double] with NumericTypeMapper {

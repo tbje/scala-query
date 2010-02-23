@@ -1,6 +1,7 @@
 package com.novocode.squery.combinator.basic
 
 import java.sql.{Blob, Clob, Date, Time, Timestamp}
+import java.math.{BigDecimal => BigDec}
 import com.novocode.squery.combinator.TypeMapperDelegate
 import com.novocode.squery.session.{PositionedParameters, PositionedResult}
 
@@ -12,6 +13,7 @@ trait BasicTypeMapperDelegates {
   val clobTypeMapperDelegate = new ClobTypeMapperDelegate
   val dateTypeMapperDelegate = new DateTypeMapperDelegate
   val doubleTypeMapperDelegate = new DoubleTypeMapperDelegate
+  val decimalTypeMapperDelegate = new DecimalTypeMapperDelegate
   val floatTypeMapperDelegate = new FloatTypeMapperDelegate
   val intTypeMapperDelegate = new IntTypeMapperDelegate
   val longTypeMapperDelegate = new LongTypeMapperDelegate
@@ -77,6 +79,16 @@ object BasicTypeMapperDelegates {
     def updateValue(v: Double, r: PositionedResult) = r.updateDouble(v)
   }
 
+  class DecimalTypeMapperDelegate extends TypeMapperDelegate[BigDec] {
+	def zero = new BigDec(0.0)
+	def sqlType = java.sql.Types.DECIMAL
+	def setValue(v: BigDec, p: PositionedParameters) = p.setDecimal(v)
+	def setOption(v: Option[BigDec], p: PositionedParameters) = p.setDecimalOption(v)
+	def nextValue(r: PositionedResult) = r.nextDecimal
+    def updateValue(v: BigDec, r: PositionedResult) = r.updateDecimal(v)
+  }
+
+  
   class FloatTypeMapperDelegate extends TypeMapperDelegate[Float] {
     def zero = 0
     def sqlType = java.sql.Types.FLOAT
