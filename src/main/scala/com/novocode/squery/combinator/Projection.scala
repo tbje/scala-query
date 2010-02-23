@@ -111,6 +111,7 @@ final class Projection2[T1,T2](
 )
 extends Tuple2(_1,_2) with Projection[(T1,T2)] {
   def ~[U](c: Column[U]) = new Projection3(_1,_2,c)
+  def tail = _2
   def getResult(profile: BasicProfile, rs: PositionedResult) = (
     _1.getResult(profile, rs),
     _2.getResult(profile, rs)
@@ -130,6 +131,7 @@ final class Projection3[T1,T2,T3](
 )
 extends Tuple3(_1,_2,_3) with Projection[(T1,T2,T3)] {
   def ~[U](c: Column[U]) = new Projection4(_1,_2,_3,c)
+  def tail = new Projection2(_2,_3)
   def getResult(profile: BasicProfile, rs: PositionedResult) = (
     _1.getResult(profile, rs),
     _2.getResult(profile, rs),
@@ -152,6 +154,7 @@ final class Projection4[T1,T2,T3,T4](
 )
 extends Tuple4(_1,_2,_3,_4) with Projection[(T1,T2,T3,T4)] {
   def ~[U](c: Column[U]) = new Projection5(_1,_2,_3,_4,c)
+  def tail = new Projection3(_2,_3,_4)
   def getResult(profile: BasicProfile, rs: PositionedResult) = (
     _1.getResult(profile, rs),
     _2.getResult(profile, rs),
@@ -177,6 +180,7 @@ final class Projection5[T1,T2,T3,T4,T5](
 )
 extends Tuple5(_1,_2,_3,_4,_5) with Projection[(T1,T2,T3,T4,T5)] {
   def ~[U](c: Column[U]) = new Projection6(_1,_2,_3,_4,_5,c)
+  def tail = new Projection4(_2,_3,_4,_5)
   def getResult(profile: BasicProfile, rs: PositionedResult) = (
     _1.getResult(profile, rs),
     _2.getResult(profile, rs),
@@ -205,6 +209,7 @@ final class Projection6[T1,T2,T3,T4,T5,T6](
 )
 extends Tuple6(_1,_2,_3,_4,_5,_6) with Projection[(T1,T2,T3,T4,T5,T6)] {
   def ~[U](c: Column[U]) = new Projection7(_1,_2,_3,_4,_5,_6,c)
+  def tail = new Projection5(_2,_3,_4,_5,_6)
   def getResult(profile: BasicProfile, rs: PositionedResult) = (
     _1.getResult(profile, rs),
     _2.getResult(profile, rs),
@@ -236,6 +241,7 @@ final class Projection7[T1,T2,T3,T4,T5,T6,T7](
 )
 extends Tuple7(_1,_2,_3,_4,_5,_6,_7) with Projection[(T1,T2,T3,T4,T5,T6,T7)] {
   def ~[U](c: Column[U]) = new Projection8(_1,_2,_3,_4,_5,_6,_7,c)
+  def tail = new Projection6(_2,_3,_4,_5,_6,_7)
   def getResult(profile: BasicProfile, rs: PositionedResult) = (
     _1.getResult(profile, rs),
     _2.getResult(profile, rs),
@@ -270,6 +276,7 @@ final class Projection8[T1,T2,T3,T4,T5,T6,T7,T8](
 )
 extends Tuple8(_1,_2,_3,_4,_5,_6,_7,_8) with Projection[(T1,T2,T3,T4,T5,T6,T7,T8)] {
   def ~[U](c: Column[U]) = new Projection9(_1,_2,_3,_4,_5,_6,_7,_8,c)
+  def tail = new Projection7(_2,_3,_4,_5,_6,_7,_8)
   def getResult(profile: BasicProfile, rs: PositionedResult) = (
     _1.getResult(profile, rs),
     _2.getResult(profile, rs),
@@ -307,6 +314,7 @@ final class Projection9[T1,T2,T3,T4,T5,T6,T7,T8,T9](
 )
 extends Tuple9(_1,_2,_3,_4,_5,_6,_7,_8,_9) with Projection[(T1,T2,T3,T4,T5,T6,T7,T8,T9)] {
   def ~[U](c: Column[U]) = new Projection10(_1,_2,_3,_4,_5,_6,_7,_8,_9,c)
+  def tail = new Projection8(_2,_3,_4,_5,_6,_7,_8,_9)
   def getResult(profile: BasicProfile, rs: PositionedResult) = (
     _1.getResult(profile, rs),
     _2.getResult(profile, rs),
@@ -347,6 +355,7 @@ final class Projection10[T1,T2,T3,T4,T5,T6,T7,T8,T9,T10](
 )
 extends Tuple10(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10) with Projection[(T1,T2,T3,T4,T5,T6,T7,T8,T9,T10)] {
   def ~[U](c: Column[U]) = new Projection11(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,c)
+  def tail = new Projection9(_2,_3,_4,_5,_6,_7,_8,_9,_10)
   def getResult(profile: BasicProfile, rs: PositionedResult) = (
     _1.getResult(profile, rs),
     _2.getResult(profile, rs),
@@ -390,6 +399,7 @@ final class Projection11[T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11](
 )
 extends Tuple11(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11) with Projection[(T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11)] {
   def ~[U](c: Column[U]) = new Projection12(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,c)
+  def tail = new Projection10(_2,_3,_4,_5,_6,_7,_8,_9,_10,_11)
   def getResult(profile: BasicProfile, rs: PositionedResult) = (
     _1.getResult(profile, rs),
     _2.getResult(profile, rs),
@@ -436,6 +446,7 @@ final class Projection12[T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12](
 )
 extends Tuple12(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12) with Projection[(T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12)] {
   def ~[U](c: Column[U]) = new Projection13(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,c)
+  def tail = new Projection11(_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12)
   def getResult(profile: BasicProfile, rs: PositionedResult) = (
     _1.getResult(profile, rs),
     _2.getResult(profile, rs),
@@ -485,6 +496,7 @@ final class Projection13[T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13](
 )
 extends Tuple13(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13) with Projection[(T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13)] {
   def ~[U](c: Column[U]) = new Projection14(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,c)
+  def tail = new Projection12(_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13)
   def getResult(profile: BasicProfile, rs: PositionedResult) = (
     _1.getResult(profile, rs),
     _2.getResult(profile, rs),
@@ -537,6 +549,7 @@ final class Projection14[T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14](
 )
 extends Tuple14(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14) with Projection[(T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14)] {
   def ~[U](c: Column[U]) = new Projection15(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,c)
+  def tail = new Projection13(_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14)
   def getResult(profile: BasicProfile, rs: PositionedResult) = (
     _1.getResult(profile, rs),
     _2.getResult(profile, rs),
@@ -592,6 +605,7 @@ final class Projection15[T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15](
 )
 extends Tuple15(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15) with Projection[(T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15)] {
   def ~[U](c: Column[U]) = new Projection16(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,c)
+  def tail = new Projection14(_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15)
   def getResult(profile: BasicProfile, rs: PositionedResult) = (
     _1.getResult(profile, rs),
     _2.getResult(profile, rs),
@@ -650,6 +664,7 @@ final class Projection16[T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16]
 )
 extends Tuple16(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16) with Projection[(T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16)] {
   def ~[U](c: Column[U]) = new Projection17(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16,c)
+  def tail = new Projection15(_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16)
   def getResult(profile: BasicProfile, rs: PositionedResult) = (
     _1.getResult(profile, rs),
     _2.getResult(profile, rs),
@@ -711,6 +726,7 @@ final class Projection17[T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16,
 )
 extends Tuple17(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16,_17) with Projection[(T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16,T17)] {
   def ~[U](c: Column[U]) = new Projection18(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16,_17,c)
+  def tail = new Projection16(_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16,_17)
   def getResult(profile: BasicProfile, rs: PositionedResult) = (
     _1.getResult(profile, rs),
     _2.getResult(profile, rs),
@@ -775,6 +791,7 @@ final class Projection18[T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16,
 )
 extends Tuple18(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16,_17,_18) with Projection[(T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16,T17,T18)] {
   def ~[U](c: Column[U]) = new Projection19(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16,_17,_18,c)
+  def tail = new Projection17(_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16,_17,_18)
   def getResult(profile: BasicProfile, rs: PositionedResult) = (
     _1.getResult(profile, rs),
     _2.getResult(profile, rs),
@@ -842,6 +859,7 @@ final class Projection19[T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16,
 )
 extends Tuple19(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16,_17,_18,_19) with Projection[(T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16,T17,T18,T19)] {
   def ~[U](c: Column[U]) = new Projection20(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16,_17,_18,_19,c)
+  def tail = new Projection18(_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16,_17,_18,_19)
   def getResult(profile: BasicProfile, rs: PositionedResult) = (
     _1.getResult(profile, rs),
     _2.getResult(profile, rs),
@@ -912,6 +930,7 @@ final class Projection20[T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16,
 )
 extends Tuple20(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16,_17,_18,_19,_20) with Projection[(T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16,T17,T18,T19,T20)] {
   def ~[U](c: Column[U]) = new Projection21(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16,_17,_18,_19,_20,c)
+  def tail = new Projection19(_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16,_17,_18,_19,_20)
   def getResult(profile: BasicProfile, rs: PositionedResult) = (
     _1.getResult(profile, rs),
     _2.getResult(profile, rs),
@@ -985,6 +1004,7 @@ final class Projection21[T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16,
 )
 extends Tuple21(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16,_17,_18,_19,_20,_21) with Projection[(T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16,T17,T18,T19,T20,T21)] {
   def ~[U](c: Column[U]) = new Projection22(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16,_17,_18,_19,_20,_21,c)
+  def tail = new Projection20(_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16,_17,_18,_19,_20,_21)
   def getResult(profile: BasicProfile, rs: PositionedResult) = (
     _1.getResult(profile, rs),
     _2.getResult(profile, rs),
@@ -1060,7 +1080,7 @@ final class Projection22[T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16,
   override val _22: Column[T22]
 )
 extends Tuple22(_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16,_17,_18,_19,_20,_21,_22) with Projection[(T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16,T17,T18,T19,T20,T21,T22)] {
-  
+  def tail = new Projection21(_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16,_17,_18,_19,_20,_21,_22)
   def getResult(profile: BasicProfile, rs: PositionedResult) = (
     _1.getResult(profile, rs),
     _2.getResult(profile, rs),
