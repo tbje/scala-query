@@ -4,10 +4,8 @@ import com.novocode.squery.combinator.{Table, Join, Query, Projection, NamingCon
 import com.novocode.squery.combinator.TypeMapper._
 import com.novocode.squery.combinator.basic.BasicDriver
 import com.novocode.squery.combinator.basic.BasicDriver.Implicit._
-
+/*
 object SQuery2Test {
-  def main(args: Array[String]) {
-
     object Users extends Table[(Int, String, String)]("users") {
       def id = column[Int]("id")
       def first = column[String]("first")
@@ -94,7 +92,6 @@ object SQuery2Test {
       dump("m2b", m2b)
     }
 
-    /*
     {
       val g1 = { u: UsersTable => u sortBy u.first }
       val g2 = { u: UsersTable => u sortBy u.last }
@@ -102,8 +99,7 @@ object SQuery2Test {
       (for(a <- Query(usersBase); b <- g2(a); result <- g1(b)) yield result).dump("m3a: ")
       (for(a <- Query(usersBase); result <- (for(b <- g2(a); temp <- g1(b)) yield temp)) yield result).dump("m3b: ")
     }
-    */
-
+	
     println()
 
     println("Insert1: " + BasicDriver.buildInsertStatement(Users))
@@ -117,5 +113,5 @@ object SQuery2Test {
 
     println(BasicDriver.buildCreateTableStatement(Users))
     println(BasicDriver.buildCreateTableStatement(Orders))
-  }
 }
+    */
