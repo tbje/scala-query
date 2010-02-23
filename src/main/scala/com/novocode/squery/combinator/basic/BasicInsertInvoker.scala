@@ -9,6 +9,17 @@ class BasicInsertInvoker[T] (column: ColumnBase[T], profile: BasicProfile) {
   def insertStatementFor(query: Query[ColumnBase[T]]): String = profile.buildInsertStatement(column, query).sql
   def insertStatementFor(c: ColumnBase[T]): String = insertStatementFor(Query(c))
 
+  def insertAutoInc(value: T)(implicit session: Session) = {
+    session.withPreparedStatement(insertStatement) { st => 
+      st.clearParameters
+      column.setParameter(profile, new PositionedParameters(st), Some(value))
+      val ret = st.executeUpdate
+      val rs = st.getGeneratedKeys()
+      val id = if (rs.next) rs.getInt(1) else -1
+      (ret, id)
+    }
+  }
+  
   def insert(value: T)(implicit session: Session): Int = session.withPreparedStatement(insertStatement) { st =>
     st.clearParameters
     column.setParameter(profile, new PositionedParameters(st), Some(value))
