@@ -10,7 +10,7 @@ class BasicInsertInvoker[T] (column: ColumnBase[T], profile: BasicProfile) {
   def insertStatementFor(c: ColumnBase[T]): String = insertStatementFor(Query(c))
 
   def insertAutoInc(value: T)(implicit session: Session) = {
-    session.withPreparedStatement(insertStatement) { st => 
+    session.withPreparedStatement(insertStatement, autoInc=true) { st => 
       st.clearParameters
       column.setParameter(profile, new PositionedParameters(st), Some(value))
       val ret = st.executeUpdate
