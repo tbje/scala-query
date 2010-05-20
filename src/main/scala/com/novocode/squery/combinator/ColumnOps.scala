@@ -72,6 +72,7 @@ object AllColumnOps {
   case class Avg(child: Node) extends SimpleFunction with UnaryNode { val name = "avg" }
   case class Min(child: Node) extends SimpleFunction with UnaryNode { val name = "min" }
   case class Max(child: Node) extends SimpleFunction with UnaryNode { val name = "max" }
+  case class Sum(child: Node) extends SimpleFunction with UnaryNode { val name = "sum" }
   case class Relational(name: String, left: Node, right: Node) extends OperatorColumn[Boolean] with SimpleBinaryOperator with BooleanColumnOps[Boolean]
   case class Exists(child: Node) extends OperatorColumn[Boolean] with SimpleFunction with UnaryNode with BooleanColumnOps[Boolean] { val name = "exists" }
   case class Arith[T : TypeMapper](name: String, left: Node, right: Node) extends OperatorColumn[T] with SimpleBinaryOperator

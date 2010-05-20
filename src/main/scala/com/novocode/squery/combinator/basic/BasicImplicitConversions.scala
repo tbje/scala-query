@@ -15,6 +15,7 @@ trait BasicImplicitConversions[DriverType <: BasicProfile] {
       if(value) l else valueToConstColumn(false)(TypeMapper.BooleanTypeMapper) :: Nil
   }
 
+  implicit def getOptionMapper2TTx[B1, B2] = OptionMapper2.plain.asInstanceOf[OptionMapper2[B1, B1, B1, B1, B2, Any]]
   implicit def getOptionMapper2TT[B1, B2 : BaseTypeMapper, BR] = OptionMapper2.plain .asInstanceOf[OptionMapper2[B1, B2, BR, B1,         B2,         BR]]
   implicit def getOptionMapper2TO[B1, B2 : BaseTypeMapper, BR] = OptionMapper2.option.asInstanceOf[OptionMapper2[B1, B2, BR, B1,         Option[B2], Option[BR]]]
   implicit def getOptionMapper2OT[B1, B2 : BaseTypeMapper, BR] = OptionMapper2.option.asInstanceOf[OptionMapper2[B1, B2, BR, Option[B1], B2,         Option[BR]]]

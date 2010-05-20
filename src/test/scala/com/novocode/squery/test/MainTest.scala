@@ -140,6 +140,13 @@ class MainTest {
       println("Orders for Homer and Marge:")
       q4d.foreach(o => println("  "+o))
 
+      val q4e = for (
+        u <- Users
+      ) yield u.id.sum
+      println("q4e: " + q4e.selectStatement)
+      println("Orders for Homer and Marge:")
+      q4e.foreach(o => println("  "+o))
+
       val b1 = Orders.where( o => o.shipped && o.shipped ).map( o => o.shipped && o.shipped )
       val b2 = Orders.where( o => o.shipped && o.rebate ).map( o => o.shipped && o.rebate )
       val b3 = Orders.where( o => o.rebate && o.shipped ).map( o => o.rebate && o.shipped )

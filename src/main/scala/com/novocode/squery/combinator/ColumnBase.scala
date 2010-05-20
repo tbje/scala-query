@@ -44,6 +44,7 @@ abstract class Column[T : TypeMapper] extends ColumnBase[T] {
   def avg = mapOp(AllColumnOps.Avg(_))
   def min = mapOp(AllColumnOps.Min(_))
   def max = mapOp(AllColumnOps.Max(_))
+  def sum = mapOp(AllColumnOps.Sum(_))
   def isNull = AllColumnOps.Is(Node(this), ConstColumn.NULL)
   def isNotNull = BooleanColumnOps.Not(Node(AllColumnOps.Is(Node(this), ConstColumn.NULL)))
   def countDistinct = AllColumnOps.CountDistinct(Node(this))

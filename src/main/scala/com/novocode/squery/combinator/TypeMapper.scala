@@ -35,7 +35,7 @@ object TypeMapper {
     def apply(profile: BasicProfile) = profile.typeMapperDelegates.dateTypeMapperDelegate
   }
   
-  implicit object BigDecimalTypeMapper extends TypeMapper[BigDec] {
+  implicit object BigDecimalTypeMapper extends BaseTypeMapper[BigDec] with NumericTypeMapper {
     def apply(profile: BasicProfile) = profile.typeMapperDelegates.decimalTypeMapperDelegate
   }
 
