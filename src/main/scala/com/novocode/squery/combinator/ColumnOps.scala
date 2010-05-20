@@ -34,13 +34,13 @@ trait AllColumnOps[B1, P1] extends ColumnOps {
     e.mapOp(IfNull(leftOperand, _))
 
   // NumericTypeMapper only
-  def + [P2, R](e: ColumnBase[P2])(implicit om: OptionMapper2[B1, B1, B1, P1, P2, R], tm: BaseTypeMapper[B1] with NumericTypeMapper): Column[R] =
+  def + [P2, R](e: ColumnBase[P2])(implicit om: OptionMapper2[B1, P2, B1, P1, P2, R], tm: BaseTypeMapper[B1] with NumericTypeMapper): Column[R] =
     om(Arith[B1]("+", leftOperand, Node(e)))
-  def - [P2, R](e: ColumnBase[P2])(implicit om: OptionMapper2[B1, B1, B1, P1, P2, R], tm: BaseTypeMapper[B1] with NumericTypeMapper): Column[R] =
+  def - [P2, R](e: ColumnBase[P2])(implicit om: OptionMapper2[B1, P2, B1, P1, P2, R], tm: BaseTypeMapper[B1] with NumericTypeMapper): Column[R] =
     om(Arith[B1]("-", leftOperand, Node(e)))
-  def * [P2, R](e: ColumnBase[P2])(implicit om: OptionMapper2[B1, B1, B1, P1, P2, R], tm: BaseTypeMapper[B1] with NumericTypeMapper): Column[R] =
+  def * [P2, R](e: ColumnBase[P2])(implicit om: OptionMapper2[B1, P2, B1, P1, P2, R], tm: BaseTypeMapper[B1] with NumericTypeMapper): Column[R] =
     om(Arith[B1]("*", leftOperand, Node(e)))
-  def / [P2, R](e: ColumnBase[P2])(implicit om: OptionMapper2[B1, B1, B1, P1, P2, R], tm: BaseTypeMapper[B1] with NumericTypeMapper): Column[R] =
+  def / [P2, R](e: ColumnBase[P2])(implicit om: OptionMapper2[B1, P2, B1, P1, P2, R], tm: BaseTypeMapper[B1] with NumericTypeMapper): Column[R] =
     om(Arith[B1]("/", leftOperand, Node(e)))
   def % [P2, R](e: ColumnBase[P2])(implicit om: OptionMapper2[B1, B1, B1, P1, P2, R], tm: BaseTypeMapper[B1] with NumericTypeMapper): Column[R] =
     om(Mod[B1](leftOperand, Node(e), tm))
