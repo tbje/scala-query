@@ -13,6 +13,7 @@ object MapperTest { def main(args: Array[String]) = new MapperTest().test() }
 class MapperTest {
   @Test def test() {
 
+/*
     case class User(id: Option[Int], first: String, last: String)
 
     object Users extends Table[User]("users") {
@@ -44,6 +45,6 @@ class MapperTest {
         Users.findByID.first(3),
         User(Some(3), "Carl", "Carlson")
       )
-    }
+    }*/
   }
 }
