@@ -1,7 +1,7 @@
 package com.novocode.squery.combinator.basic
 
 import java.sql.{Blob, Clob, Date, Time, Timestamp}
-import java.math.{BigDecimal => BigDec}
+import scala.math.{BigDecimal => BigDec}
 import com.novocode.squery.combinator.TypeMapperDelegate
 import com.novocode.squery.session.{PositionedParameters, PositionedResult}
 
@@ -80,7 +80,7 @@ object BasicTypeMapperDelegates {
   }
 
   class DecimalTypeMapperDelegate extends TypeMapperDelegate[BigDec] {
-	def zero = new BigDec(0.0)
+	def zero = BigDec("0.0")
 	def sqlType = java.sql.Types.DECIMAL
 	def setValue(v: BigDec, p: PositionedParameters) = p.setDecimal(v)
 	def setOption(v: Option[BigDec], p: PositionedParameters) = p.setDecimalOption(v)

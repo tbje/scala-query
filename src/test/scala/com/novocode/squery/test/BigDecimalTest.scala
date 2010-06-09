@@ -7,7 +7,7 @@ import com.novocode.squery.combinator.TypeMapper._
 import com.novocode.squery.combinator.basic.BasicDriver.Implicit._
 import com.novocode.squery.session._
 import com.novocode.squery.session.Database.threadLocalSession
-import java.math.{BigDecimal=>BigDec}
+import scala.math.{BigDecimal=>BigDec}
 
 object BigDecimalTest { def main(args: Array[String]) = new BigDecimalTest().test() }
 
@@ -29,13 +29,13 @@ class BigDecimalTest {
 
       Money_.createTable
       mySequence.createSequence
-      val ins1 = (Money_.amount ~ Money_.part ~ Money_.x).insert(new BigDec(34.34), 100, 0.0f)  
+      val ins1 = (Money_.amount ~ Money_.part ~ Money_.x).insert(BigDec("34.34"), 100, 0.0f)  
       println("BigDecimal test")
       val q1 = for(u <- Money_) yield u.id ~ u.amount ~ u.part
       println("q1: " + q1.selectStatement)
       val q2 = for(u <- Money_ ) yield u.amount.sum
       println("q2: " + q2.selectStatement)
-      val q3 = for(u <- Money_ if (u.amount is new BigDec(20.0))) yield u.amount.sum
+      val q3 = for(u <- Money_ if (u.amount is BigDec("20.0"))) yield u.amount.sum
       println("q3: " + q3.selectStatement)
       val q4 = for(u <- Money_ ) yield u.x*u.part
       println("q4: " + q4.selectStatement)

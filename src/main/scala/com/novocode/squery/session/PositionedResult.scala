@@ -1,7 +1,7 @@
 package com.novocode.squery.session
 
 import java.sql.{ResultSet, Blob, Clob, Date, Time, Timestamp}
-import java.math.{BigDecimal => BigDec}
+import scala.math.{BigDecimal => BigDec}
 
 /**
  * A database result positioned at a row and column.
@@ -16,7 +16,7 @@ abstract class PositionedResult(val rs: ResultSet) extends java.io.Closeable {
   def nextByte() = { pos += 1; rs getByte pos }
   def nextClob() = { pos += 1; rs getClob pos }
   def nextDate() = { pos += 1; rs getDate pos }
-  def nextDecimal() = { pos += 1; rs getBigDecimal pos }
+  def nextDecimal() = { pos += 1; BigDec(rs getBigDecimal pos) }
   def nextDouble() = { pos += 1; rs getDouble pos }
   def nextFloat() = { pos += 1; rs getFloat pos }
   def nextInt() = { pos += 1; rs getInt pos }
@@ -31,7 +31,7 @@ abstract class PositionedResult(val rs: ResultSet) extends java.io.Closeable {
   def nextByteOption() = { pos += 1; val r = rs getByte pos; if(rs wasNull) None else Some(r) }
   def nextClobOption() = { pos += 1; val r = rs getClob pos; if(rs wasNull) None else Some(r) }
   def nextDateOption() = { pos += 1; val r = rs getDate pos; if(rs wasNull) None else Some(r) }
-  def nextDecimalOption() = { pos += 1; val r = rs getBigDecimal pos; if(rs wasNull) None else Some(r) }
+  def nextDecimalOption() = { pos += 1; val r = rs getBigDecimal pos; if(rs wasNull) None else Some(BigDec(r)) }
   def nextDoubleOption() = { pos += 1; val r = rs getDouble pos; if(rs wasNull) None else Some(r) }
   def nextFloatOption() = { pos += 1; val r = rs getFloat pos; if(rs wasNull) None else Some(r) }
   def nextIntOption() = { pos += 1; val r = rs getInt pos; if(rs wasNull) None else Some(r) }
@@ -47,7 +47,7 @@ abstract class PositionedResult(val rs: ResultSet) extends java.io.Closeable {
   def updateClob(v: Clob) = { pos += 1; rs.updateClob(pos, v) }
   def updateDate(v: Date) = { pos += 1; rs.updateDate(pos, v) }
   def updateDouble(v: Double) = { pos += 1; rs.updateDouble(pos, v) }
-  def updateDecimal(v: BigDec) = { pos += 1; rs.updateBigDecimal(pos, v) }
+  def updateDecimal(v: BigDec) = { pos += 1; rs.updateBigDecimal(pos, v.bigDecimal) }
   def updateFloat(v: Float) = { pos += 1; rs.updateFloat(pos, v) }
   def updateInt(v: Int) = { pos += 1; rs.updateInt(pos, v) }
   def updateLong(v: Long) = { pos += 1; rs.updateLong(pos, v) }
@@ -62,7 +62,7 @@ abstract class PositionedResult(val rs: ResultSet) extends java.io.Closeable {
   def updateClobOption(v: Option[Clob]) { pos += 1; v match { case Some(s) => rs.updateClob(pos, s); case None => rs.updateNull(pos) } }
   def updateDateOption(v: Option[Date]) { pos += 1; v match { case Some(s) => rs.updateDate(pos, s); case None => rs.updateNull(pos) } }
   def updateDoubleOption(v: Option[Double]) { pos += 1; v match { case Some(s) => rs.updateDouble(pos, s); case None => rs.updateNull(pos) } }
-  def updateDecimalOption(v: Option[BigDec]) { pos += 1; v match { case Some(s) => rs.updateBigDecimal(pos, s); case None => rs.updateNull(pos) } }
+  def updateDecimalOption(v: Option[BigDec]) { pos += 1; v match { case Some(s) => rs.updateBigDecimal(pos, s.bigDecimal); case None => rs.updateNull(pos) } }
   def updateFloatOption(v: Option[Float]) { pos += 1; v match { case Some(s) => rs.updateFloat(pos, s); case None => rs.updateNull(pos) } }
   def updateIntOption(v: Option[Int]) { pos += 1; v match { case Some(s) => rs.updateInt(pos, s); case None => rs.updateNull(pos) } }
   def updateLongOption(v: Option[Long]) { pos += 1; v match { case Some(s) => rs.updateLong(pos, s); case None => rs.updateNull(pos) } }

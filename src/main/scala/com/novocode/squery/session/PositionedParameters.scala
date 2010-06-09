@@ -1,13 +1,13 @@
 package com.novocode.squery.session
 
 import java.sql.{PreparedStatement, Date, Time, Timestamp, Types, Blob, Clob}
-import java.math.{BigDecimal => BigDec}
+import scala.math.{BigDecimal => BigDec}
 
 class PositionedParameters(val ps: PreparedStatement) {
 
   var pos = 0
 
-  def setDecimal(value: BigDec) = { pos += 1; ps.setBigDecimal(pos, value) }
+  def setDecimal(value: BigDec) = { pos += 1; ps.setBigDecimal(pos, value.bigDecimal) }
   def setBoolean(value: Boolean) = { pos += 1; ps.setBoolean(pos, value) }
   def setBlob(value: Blob) = { pos += 1; ps.setBlob(pos, value) }
   def setByte(value: Byte) = { pos += 1; ps.setByte(pos, value) }
@@ -43,7 +43,7 @@ class PositionedParameters(val ps: PreparedStatement) {
   }
   def setDecimalOption(value: Option[BigDec]) = {
 	pos += 1
-	if(value eq None) ps.setNull(pos, Types.DECIMAL) else ps.setBigDecimal(pos, value.get)
+	if(value eq None) ps.setNull(pos, Types.DECIMAL) else ps.setBigDecimal(pos, value.get.bigDecimal)
   }
   def setDoubleOption(value: Option[Double]) = {
     pos += 1

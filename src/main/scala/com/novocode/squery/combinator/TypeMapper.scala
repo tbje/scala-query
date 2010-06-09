@@ -1,7 +1,7 @@
 package com.novocode.squery.combinator
 
 import java.sql.{Blob, Clob, Date, Time, Timestamp}
-import java.math.{BigDecimal => BigDec}
+import scala.math.{BigDecimal => BigDec}
 import com.novocode.squery.SQueryException
 import com.novocode.squery.combinator.basic.BasicProfile
 import com.novocode.squery.session.{PositionedParameters, PositionedResult}
