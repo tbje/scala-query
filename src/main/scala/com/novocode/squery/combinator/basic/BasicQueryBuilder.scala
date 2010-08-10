@@ -98,7 +98,6 @@ abstract class BasicQueryBuilder(_query: Query[_], _nc: NamingContext, parent: O
 
   protected def appendOrderClause(b: SQLBuilder): Unit = query.typedModifiers[Ordering] match {
     case x :: xs => {
-	  println("ORDER BY")
       b += " ORDER BY "
       appendOrdering(x, b)
       for(x <- xs) {
