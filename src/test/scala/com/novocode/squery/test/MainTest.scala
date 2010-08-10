@@ -7,10 +7,12 @@ import com.novocode.squery.combinator.TypeMapper._
 import com.novocode.squery.combinator.basic.BasicDriver.Implicit._
 import com.novocode.squery.session._
 import com.novocode.squery.session.Database.threadLocalSession
+import scala.math.random
+import org.scalatest.junit.JUnitRunner
+import org.junit.runner.RunWith
+import org.scalatest.junit.JUnitSuite
 
-object MainTest { def main(args: Array[String]) = new MainTest().test() }
-
-class MainTest {
+class MainTest extends JUnitSuite {
   case class User(id: Int, first: String, last: String)
 
   object Users extends Table[(Int, String, Option[String])]("users") {
@@ -84,7 +86,7 @@ class MainTest {
       for(u <- allUsers
           if u.first != "Apu" && u.first != "Snowball"; i <- 1 to 2)
         (Orders.userID ~ Orders.product ~ Orders.shipped ~ Orders.rebate).insert(
-          u.id, "Gizmo "+((Math.random*10)+1).toInt, i == 2, Some(u.first == "Marge"))
+          u.id, "Gizmo "+((random*10)+1).toInt, i == 2, Some(u.first == "Marge"))
 
       val q3 = for (
         u <- Users if u.last isNotNull;
@@ -197,6 +199,14 @@ class MainTest {
       assertEquals(updated2, 1)
 
       for(t <- q1) println("User tuple: "+t)
+
+      val q9 = for(u <- Users; _ <- Query `match`(u.first, u.last) against("hello*")) yield u.first
+      assertEquals("SELECT t1.first FROM "+ Users.tableName + " t1 MATCH(t1.first, t1.last) AGAINST('hello*')", q9.selectStatement)
+
+	  import SearchModifier._
+      val q10 = for(u <- Users; _ <- Query `match`(u.first, u.last) against("hello*".bind, Some(InBooleanMode))) yield u.first
+      assertEquals("SELECT t1.first FROM "+ Users.tableName + " t1 MATCH(t1.first, t1.last) AGAINST(? IN BOOLEAN MODE)", q10.selectStatement)
+
     }
   }
 }

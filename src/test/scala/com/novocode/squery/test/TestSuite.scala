@@ -7,7 +7,6 @@ import org.junit.runners.Suite.SuiteClasses
 @RunWith(classOf[Suite])
 @SuiteClasses(Array(
   classOf[SimpleTest],
-  classOf[MainTest],
   classOf[UnionTest],
   classOf[TemplateTest],
   classOf[DriverTest],

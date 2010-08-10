@@ -14,6 +14,11 @@ object Ordering {
   }
 }
 
+final case class Matching(by: List[NamedColumn[_]], what: Column[_], modifier: Option[SearchModifier.Value]) extends QueryModifier {
+  def nodeChildren = by
+  override def toString = "Matching"
+}
+
 final case class Grouping(val by: Node) extends QueryModifier {
   def nodeChildren = by :: Nil
   override def toString = "Grouping"
