@@ -200,12 +200,12 @@ class MainTest extends JUnitSuite {
 
       for(t <- q1) println("User tuple: "+t)
 
-      val q9 = for(u <- Users; _ <- Query `match`(u.first, u.last) against("hello*")) yield u.first
-      assertEquals("SELECT t1.first FROM "+ Users.tableName + " t1 MATCH(t1.first, t1.last) AGAINST('hello*')", q9.selectStatement)
+      val q9 = for(u <- Users if Match(u.first, u.last) against("hello")) yield u.first // )) yield u.first
+      assertEquals("SELECT t1.first FROM "+ Users.tableName + " t1 WHERE MATCH(t1.first, t1.last) AGAINST('hello')", q9.selectStatement)
 
 	  import SearchModifier._
-      val q10 = for(u <- Users; _ <- Query `match`(u.first, u.last) against("hello*".bind, Some(InBooleanMode))) yield u.first
-      assertEquals("SELECT t1.first FROM "+ Users.tableName + " t1 MATCH(t1.first, t1.last) AGAINST(? IN BOOLEAN MODE)", q10.selectStatement)
+      val q10 = for(u <- Users if Match(u.first, u.last) against("hello".bind, InBooleanMode)) yield u.first
+      assertEquals("SELECT t1.first FROM "+ Users.tableName + " t1 WHERE MATCH(t1.first, t1.last) AGAINST(? IN BOOLEAN MODE)", q10.selectStatement)
 
     }
   }

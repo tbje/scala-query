@@ -6,15 +6,10 @@ import scala.reflect.Manifest
  * A query monad which contains the AST for a query's projection and the accumulated
  * restrictions and other modifiers.
  */
-object SearchModifier extends Enumeration("IN BOOLEAN MODE", "IN NATURAL LANGUAGE MODE", "IN NATURAL LANGUAGE MODE WITH QUERY EXPANSION",
-	 "WITH QUERY EXPANSION") {
+object SearchModifier extends Enumeration("IN BOOLEAN MODE", "IN NATURAL LANGUAGE MODE", 
+	"IN NATURAL LANGUAGE MODE WITH QUERY EXPANSION", "WITH QUERY EXPANSION") {
 	type SearchModifier = Value
 	val InBooleanMode, InNaturalLanguageMode, InNaturalLanguageModeWithQueryExpansion, WithQueryExpansion = Value
-}
-
-class Match[+E](val z: List[NamedColumn[_]], q: Query[E]) {
-  def against(what: Column[_], modifier: Option[SearchModifier.Value] = None) =
-    new Query[E](q.value, q.cond, q.condHaving, q.modifiers ::: (new Matching(z.toList, what, modifier)) :: Nil)
 }
 
 class Query[+E](val value: E, val cond: List[Column[_]],  val condHaving: List[Column[_]],
@@ -46,9 +41,6 @@ class Query[+E](val value: E, val cond: List[Column[_]],  val condHaving: List[C
 
   def groupBy(by: Column[_]*) =
     new Query[E](value, cond, condHaving, modifiers ::: by.view.map(c => new Grouping(Node(c))).toList)
-
-  def `match`(cols: NamedColumn[_]*) =
-    new Match[E](cols.toList, this)
 
   def orderBy(by: Ordering*) = new Query[E](value, cond, condHaving, modifiers ::: by.toList)
 

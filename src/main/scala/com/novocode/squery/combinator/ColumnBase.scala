@@ -48,6 +48,7 @@ abstract class Column[T : TypeMapper] extends ColumnBase[T] {
   def isNull = AllColumnOps.Is(Node(this), ConstColumn.NULL)
   def isNotNull = BooleanColumnOps.Not(Node(AllColumnOps.Is(Node(this), ConstColumn.NULL)))
   def countDistinct = AllColumnOps.CountDistinct(Node(this))
+  //def distinct = AllColumnOps.Distinct(Node(this))
   def asColumnOf[U : TypeMapper]: Column[U] = AllColumnOps.AsColumnOf[U](Node(this), None)
   def asColumnOfType[U : TypeMapper](typeName: String): Column[U] = AllColumnOps.AsColumnOf[U](Node(this), Some(typeName))
 
@@ -119,4 +120,19 @@ extends Column[T] {
 
 object NamedColumn {
   def unapply[T](n: NamedColumn[T]) = Some((n.table, n.name, n.options))
+}
+
+class MatchColumn(val cols: List[NamedColumn[_]], val what: Column[_], val modifier: Option[SearchModifier.Value]) extends Column[String] {
+  def nodeChildren = Nil
+}
+object MatchColumn {
+  def unapply[T](n: MatchColumn) = Some((n.cols, n.what, n.modifier))
+}
+
+class Match(cols: List[NamedColumn[_]]) {
+  def against(what: Column[_], modifier: SearchModifier.Value*) = new MatchColumn(cols, what, modifier.headOption)
+}
+
+object Match {
+	def apply(cols: NamedColumn[_]*) = new Match(cols.toList)
 }

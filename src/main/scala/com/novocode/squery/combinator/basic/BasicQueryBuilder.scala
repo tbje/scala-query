@@ -69,7 +69,6 @@ abstract class BasicQueryBuilder(_query: Query[_], _nc: NamingContext, parent: O
     appendGroupClause(b)
     appendHavingConditions(b)
     appendOrderClause(b)
-	appendMatchAgainstClause(b)
   }
 
   protected def appendGroupClause(b: SQLBuilder): Unit = query.typedModifiers[Grouping] match {
@@ -83,18 +82,6 @@ abstract class BasicQueryBuilder(_query: Query[_], _nc: NamingContext, parent: O
     }
     case _ =>
   }
-
-  protected def appendMatchAgainstClause(b: SQLBuilder): Unit = query.typedModifiers[Matching] match {
-    case Matching(by, what, modifier) :: Nil=> {
-      b += " MATCH(" + 
-		by.map(z=> localTableName(z.table) + "." + z.name).mkString(", ") + 
-	    ") AGAINST("
-	  innerExpr(Node(what), b) 
-	  b += modifier.map(" " + _.toString).getOrElse("") + ")"
-    }
-    case _ =>
-  }
-
 
   protected def appendOrderClause(b: SQLBuilder): Unit = query.typedModifiers[Ordering] match {
     case x :: xs => {
@@ -197,6 +184,13 @@ abstract class BasicQueryBuilder(_query: Query[_], _nc: NamingContext, parent: O
   }
 
   protected def innerExpr(c: Node, b: SQLBuilder): Unit = c match {
+    case MatchColumn(by, what, modifier)=> {
+      b += "MATCH(" + 
+		by.map(z=> localTableName(z.table) + "." + z.name).mkString(", ") + 
+	    ") AGAINST("
+	  innerExpr(Node(what), b) 
+	  b += modifier.map(" " + _.toString).getOrElse("") + ")"
+    }
     case ConstColumn(null) => b += "null"
     case BooleanColumnOps.Not(AllColumnOps.Is(l, ConstColumn(null))) => { b += '('; expr(l, b); b += " is not null)" }
     case BooleanColumnOps.Not(e) => { b += "(not "; expr(e, b); b+= ')' }
