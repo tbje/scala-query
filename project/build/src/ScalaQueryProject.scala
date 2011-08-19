@@ -25,7 +25,7 @@ class ScalaQueryProject(info: ProjectInfo) extends DefaultProject(info)
   //val specs = "org.scala-tools.testing" % "specs" % "1.4.4"
   //val scalaCheck = "org.scalacheck" % "scalacheck" % "1.5"
 
-  val h2 = "com.h2database" % "h2" % "1.1.+" % "test->default"
+  val h2 = "com.h2database" % "h2" % "1.3.+" % "test->default"
   //val junit = "junit" % "junit" % "4.7" % "test->default"
   //val scalatest = "org.scalatest" % "scalatest" % "1.0-for-scala-2.8.0-SNAPSHOT" % "test->default"
 
