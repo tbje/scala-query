@@ -3,6 +3,7 @@ import scala.collection.Set
 import scala.xml._
 import java.io.{File, FileOutputStream}
 import java.nio.channels.Channels
+import sbt.FileUtilities._
 
 class ScalaQueryProject(info: ProjectInfo) extends DefaultProject(info)
 {
@@ -32,7 +33,8 @@ class ScalaQueryProject(info: ProjectInfo) extends DefaultProject(info)
   //val junitInterface = "com.novocode" % "junit-interface" % "0.3"
 
   /*********** Publishing ***********/
-  val publishTo = Resolver.file("ScalaQuery Test Repo", new File("e:/temp/repo/"))
+  lazy val publish_dir = system[String]("publish.dir").get.get
+  lazy val publishTo = Resolver.file("ScalaQuery Test Repo", new File(publish_dir))
   //val publishTo = "Scala Tools Snapshots" at "http://nexus.scala-tools.org/content/repositories/snapshots/"
   //val publishTo = "Scala Tools Releases" at "http://nexus.scala-tools.org/content/repositories/releases/"
   Credentials(Path.userHome / ".ivy2" / ".credentials", log)
@@ -42,6 +44,7 @@ class ScalaQueryProject(info: ProjectInfo) extends DefaultProject(info)
     mavenStyle()
   val nightlyScala = ModuleConfiguration("org.scala-lang", "*", "2.8.0-.*", specificSnapshotRepo)
   //override def deliverScalaDependencies = Nil
+
   override def managedStyle = ManagedStyle.Maven
   override def packageDocsJar = defaultJarPath("-javadocs.jar")
   override def packageSrcJar = defaultJarPath("-sources.jar")
